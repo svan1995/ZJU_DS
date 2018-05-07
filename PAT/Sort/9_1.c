@@ -1,17 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int ElementType;
+
+void Swap(int* a, int* b);
+void PercDown(ElementType A[], int p, int N);
+void Merge(ElementType A[], ElementType TmpA[], int L, int R, int RightEnd);
+void Msort(ElementType A[], ElementType TmpA[], int L, int RightEnd);
+
+void BubbleSort(ElementType A[], int N);
+void InsertionSort(ElementType A[], int N);
+void ShellSort(ElementType A[], int N);
+void SimpleSelectionSort(ElementType A[], int N);
+void HeapSort(ElementType A[], int N);
+void MergeSort(ElementType A[], int N);
+
+int main(int argc, char const *argv[])
+{
+	int N;
+	scanf("%d",&N);
+	int A[N];
+
+	for (int i = 0; i < N; i++)
+		scanf("%d", &A[i]);
+
+	// BubbleSort(A,N);
+	// InsertionSort(A,N);
+	// ShellSort(A,N);
+	// SimpleSelectionSort(A,N);
+	// HeapSort(A,N);
+	MergeSort(A,N);
+
+	for (int i = 0; i < N; i++){
+		if(i < N-1)
+			printf("%d ", A[i]);
+		else
+			printf("%d", A[i]);
+	}
+	
+	return 0;
+}
+
+void Swap(int* a, int* b)
+{
+	int tmp;
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
 void BubbleSort(ElementType A[], int N)
 {
 	int P, i;
-	bool flag;
+	int flag;
 
 	for(P = N-1; P >= 0; P--){
-		flag = false;
-		for(i = 0；i < P; i++){
+		flag = 0;
+		for(i = 0;i < P; i++){
 			if(A[i] > A[i+1]){
 				Swap(&A[i], &A[i+1]);
-				flag = true;
+				flag = 1;
 			}
 		}
-		if(flag == false)
+		if(flag == 0)
 			break;
 	}
 }
@@ -40,7 +91,7 @@ void ShellSort(ElementType A[], int N)
 	for(D = Sedgewick[Si]; D > 0; D = Sedgewick[++Si])
 		for(P = D; P < N; P++){
 			Tmp = A[P];
-			for(i = P; i >= D && A[i-D] > Tmp; i- = D)
+			for(i = P; i >= D && A[i-D] > Tmp; i -= D)
 				A[i] = A[i-D];
 			A[i] = Tmp;
 		}
@@ -109,7 +160,7 @@ void Merge(ElementType A[], ElementType TmpA[], int L, int R, int RightEnd)
 	while(R <= RightEnd)
 		TmpA[Tmp++] = A[R++];
 
-	for (int i = 0; i < NumElements; i++,RightEnd--)
+	for (i = 0; i < NumElements; i++,RightEnd--)
 		A[RightEnd] = TmpA[RightEnd];
 }
 
