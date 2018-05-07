@@ -109,8 +109,9 @@ void Merge(ElementType A[], ElementType TmpA[], int L, int R, int RightEnd)
 	while(R <= RightEnd)
 		TmpA[Tmp++] = A[R++];
 
-	for (int i = 0; i < NumElements; i++,RightEnd--)
-		A[RightEnd] = TmpA[RightEnd];
+// ***对于非递归归并排序，不需要***
+	// for (int i = 0; i < NumElements; i++,RightEnd--)
+	// 	A[RightEnd] = TmpA[RightEnd];
 }
 
 void Msort(ElementType A[], ElementType TmpA[], int L, int RightEnd)
@@ -135,4 +136,35 @@ void MergeSort(ElementType A[], int N)
 		free(TmpA);
 	}
 	else printf("空间不足\n");
+}
+
+void Merge_pass(ElementType A[], ElementType TmpA[], int N, int length)
+{
+	int i, j;
+	for(i = 0; i <= N - 2*length, i += 2*length)
+		Merge(A, TmpA, i, i+length, i+length*2-1);
+	if(i + length < N)
+		Merge(A, TmpA, i, i+length, N-1)
+	else
+		for(j = i; j < N; j++)
+			TmpA[j] = A[j];
+}
+
+void Merge_Sort(ElementType A[], int N)
+{
+	int length;
+	ElementType* TmpA = (ElementType*)malloc(sizeof(ElementType) * N);
+
+	length = 1;
+	if(TmpA != NULL){
+		while(length < N){
+			Merge_pass(A, TmpA, N, length);
+			length *= 2;
+			Merge_pass(TmpA, A, N, length);
+			length *= 2;
+		}
+		free(TmpA);
+	}
+	else
+		printf("空间不足");
 }
