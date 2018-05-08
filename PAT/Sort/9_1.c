@@ -8,6 +8,8 @@ void PercDown(ElementType A[], int p, int N);
 void Merge(ElementType A[], ElementType TmpA[], int L, int R, int RightEnd);
 void Msort(ElementType A[], ElementType TmpA[], int L, int RightEnd);
 void Merge_pass(ElementType A[], ElementType TmpA[], int N, int length);
+ElementType Median3(ElementType A[], int Left, int Right);
+void Qsort(ElementType A[], int Left, int Right);
 
 void BubbleSort(ElementType A[], int N);
 void InsertionSort(ElementType A[], int N);
@@ -16,6 +18,7 @@ void SimpleSelectionSort(ElementType A[], int N);
 void HeapSort(ElementType A[], int N);
 void MergeSort(ElementType A[], int N);
 void Merge_Sort(ElementType A[], int N);
+void QuickSort(ElementType A[], int N);
 
 int main(int argc, char const *argv[])
 {
@@ -33,6 +36,7 @@ int main(int argc, char const *argv[])
 	// HeapSort(A,N);
 	// MergeSort(A,N);
 	Merge_Sort(A,N);
+	QuickSort(A,N);
 
 	for (int i = 0; i < N; i++){
 		if(i < N-1)
@@ -220,4 +224,48 @@ void Merge_Sort(ElementType A[], int N)
 	}
 	else
 		printf("空间不足");
+}
+
+ElementType Median3(ElementType A[], int Left, int Right)
+{
+	int Center = (Left + Right) / 2;
+	if(A[Left] > A[Center])
+		Swap(&A[Left], &A[Center]);
+	if(A[Left] > A[Right])
+		Swap(&A[Left], &A[Right]);
+	if(A[Center] > A[Right])
+		Swap(&A[Center], &A[Right]);
+	Swap(&A[Center], &A[Right-1]);
+
+	return A[Right-1];
+}
+
+void Qsort(ElementType A[], int Left, int Right)
+{
+	int Pivot, Cutoff, Low, High;
+	Cutoff = 500;
+
+	if(Cutoff <= Right - Left){
+		Pivot = Median3(A, Left, Right);
+		Low = Left;
+		High = Right-1;
+		while(1){
+			while(A[++Low] < Pivot);
+			while(A[--High] > Pivot);
+			if(Low < High)
+				Swap(&A[Low],&A[High]);
+			else
+				break;
+		}
+		Swap(&A[Low], &A[Right-1]);
+		Qsort(A, Left, Low-1);
+		Qsort(A, Low+1, Right);
+	}
+	else
+		InsertionSort(A+Left, Right - Left + 1);
+}
+
+void QuickSort(ElementType A[], int N)
+{
+	Qsort(A, 0, N-1);
 }
