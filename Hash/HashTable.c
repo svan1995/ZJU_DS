@@ -19,7 +19,7 @@ struct TblNode
 	Cell* Cells;
 };
 
-int NextPrinme(int N)
+int NextPrime(int N)
 {
 	int i, p = (N%2) ? N+2:N+1;
 	while(p <= MAXTABLESIZE){
@@ -39,10 +39,11 @@ HashTable CreateTable(int TableSize)
 	HashTable H;
 	int i;
 	H = (HashTable)malloc(sizeof(struct TblNode));
-	H->TableSize = NextPrinme(TableSize);
+	H->TableSize = NextPrime(TableSize);
 	H->Cells = (Cell*)malloc(sizeof(Cell) * H->TableSize);
 	for(i = 0; i < H->TableSize; i++)
 		H->Cells[i].Info = Empty;
+	return H;
 }
 
 Position Find(HashTable H, ElementType Key)
