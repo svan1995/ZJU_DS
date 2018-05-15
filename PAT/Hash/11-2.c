@@ -25,6 +25,8 @@ struct TblNode
 int NextPrime(int N)
 {
 	int i, p = (N%2) ? N+2:N+1;
+	if(N == 1)
+		return 2;
 	while(p <= MAXTABLESIZE){
 		for(i = (int)sqrt(p); i > 2; i--)
 			if(!(p%i))
@@ -40,6 +42,10 @@ int NextPrime(int N)
 int IsPrime(int N)
 {
 	int flag = 1;
+	if(N == 1)
+		flag = 0;
+	if(N == 2)
+		flag = 1;
 	for(int i = 2; i <= N/2; i++ ){
 		if(N % i == 0){
 			flag = 0;
@@ -81,6 +87,10 @@ Position Find(HashTable H, ElementType Key)
 		CNum++;
 		if(NewPos >= H->TableSize)
 			NewPos %= H->TableSize;
+		if(CNum >= H->TableSize){
+			NewPos = -1;
+			break;
+		}
 	}
 	return NewPos;
 }
