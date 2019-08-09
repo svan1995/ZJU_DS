@@ -17,6 +17,7 @@ typedef struct HeadNode Bucket[Radix];
 int GetDigit(int X, int D)
 {
 	int d, i;
+	printf("hello\n");
 
 	for (int i = 0; i <= D; i++)
 	{
@@ -73,6 +74,8 @@ void LSDRadixSort(ElementType A[], int N)
 		free(tmp);
 	}
 }
+
+
 
 void MSD(ElementType A[], int L, int R, int D)
 {
